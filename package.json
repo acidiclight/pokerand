@@ -1,0 +1,22 @@
+{
+  "name": "pokerand",
+  "version": "1.0.0",
+  "description": "Random Pokemon name generator for the 11pixels furret stream",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env DISCORD_PING_UID=794018198743285771 DISCORD_WEBHOOK_URL=https://discordapp.com/api/webhooks/803374746045644871/KCj3GyDQBTgU6u-255XEyQsw9EyF3qaofPR4sWeJK34Vqip0tmcBa93AAP1vncATbFQ7 node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alkalinethunder/pokerand.git"
+  },
+  "author": "Alkaline Thunder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alkalinethunder/pokerand/issues"
+  },
+  "homepage": "https://github.com/alkalinethunder/pokerand#readme",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
+}
