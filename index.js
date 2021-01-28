@@ -9,7 +9,20 @@ const DISCORD_PING_UID = process.env.DISCORD_PING_UID;
 const PREVIOUS_POKEMON_LIST_SIZE = process.env.PREVIOUS_POKEMON_LIST_SIZE || 5;
 
 var nameList = [];
-var pokeMemory = [];
+var pokeMemory = {
+    last: [],
+    day: -1,
+    potw: ''
+};
+
+function shouldPickPokemonOfTheWeek() {
+    const currDay = Date.now.getDay();
+    if (currDay == 0 /* sunday */ && currDay != pokeMemory.day) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 function checkWebhook() {
     if (!DISCORD_WEBHOOK_URL) {
@@ -22,8 +35,8 @@ function pickPokemon() {
     // If we have a memory of our previously picked Pokemon, then we'll
     // check to see if we can forget the first one we remember picking.
     if (PREVIOUS_POKEMON_LIST_SIZE > 0) {
-        if (pokeMemory.length == PREVIOUS_POKEMON_LIST_SIZE) {
-            pokeMemory = pokeMemory.slice(1);
+        if (pokeMemory.last.length == PREVIOUS_POKEMON_LIST_SIZE) {
+            pokeMemory.last = pokeMemory.last.slice(1);
         }
     }
 
@@ -34,10 +47,10 @@ function pickPokemon() {
     // that isn't in the memory.
     do {
         result = nameList[Math.floor(Math.random() * nameList.length)];
-    } while (pokeMemory.includes(result));
+    } while (pokeMemory.last.includes(result) || pokeMemory.potw === result);
 
     // Add the pokemon to memory.
-    pokeMemory.push(result);
+    pokeMemory.last.push(result);
 
     // All done.
     return result;
@@ -99,7 +112,11 @@ function loadPokemonFromCache(done) {
     if (fs.existsSync('./pokemon.mem')) {
         const buff = fs.readFileSync('./pokemon.mem');
         const json = buff.toString();
-        pokeMemory = JSON.parse(json);
+        const obj = JSON.parse(json);
+
+        pokeMemory.potw = obj.potw || '';
+        pokeMemory.day = obj.day || -1;
+        pokeMemory.last = obj.last || [];
     }
 
     // Check if the cache exists.
@@ -131,8 +148,18 @@ loadPokemonFromCache(function() {
     // pick a pokemon
     const pokemon = pickPokemon();
 
+    // pick pokemon of the week on sunday
+    if (shouldPickPokemonOfTheWeek()) {
+        const potw = pickPokemon();
+        console.log(`This week, I choose you, ${potw}!`);
+        pokeMemory.potw = potw;
+    }
+
     // print it to the console
     console.log(`${pokemon}, I choose you!`);
+
+    // update the current day
+    pokeMemory.day = Date.now.getDay();
 
     // Prepare webhook text.
     let whContent = '';
@@ -141,7 +168,9 @@ loadPokemonFromCache(function() {
         whContent = `<@!${DISCORD_PING_UID}> `;
     }
 
-    whContent += " It's time to update the furret stream. **New Pokemon of the Day:** " + pokemon;
+    whContent += " It's time to update the furret stream.\r\n\r\n";
+    wbContent += "**Pokemon of the Week:** " + pokeMemory.potw + "\r\n";
+    wbContent += "**Pokemon of the Day:** " + pokemon;
 
     // prepare the payload
     const payload = {
