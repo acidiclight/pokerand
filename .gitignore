@@ -1,3 +1,7 @@
+# PokeRand cache files
+pokemon.cache
+pokemon.mem
+
 # Logs
 logs
 *.log
