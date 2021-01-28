@@ -16,7 +16,7 @@ var pokeMemory = {
 };
 
 function shouldPickPokemonOfTheWeek() {
-    const currDay = Date.now.getDay();
+    const currDay = new Date().getDay();
     if (currDay == 0 /* sunday */ && currDay != pokeMemory.day) {
         return true;
     } else {
@@ -159,7 +159,7 @@ loadPokemonFromCache(function() {
     console.log(`${pokemon}, I choose you!`);
 
     // update the current day
-    pokeMemory.day = Date.now.getDay();
+    pokeMemory.day = new Date().getDay();
 
     // Prepare webhook text.
     let whContent = '';
