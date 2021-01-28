@@ -169,8 +169,8 @@ loadPokemonFromCache(function() {
     }
 
     whContent += " It's time to update the furret stream.\r\n\r\n";
-    wbContent += "**Pokemon of the Week:** " + pokeMemory.potw + "\r\n";
-    wbContent += "**Pokemon of the Day:** " + pokemon;
+    whContent += "**Pokemon of the Week:** " + pokeMemory.potw + "\r\n";
+    whContent += "**Pokemon of the Day:** " + pokemon;
 
     // prepare the payload
     const payload = {
