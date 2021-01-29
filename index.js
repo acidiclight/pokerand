@@ -17,7 +17,7 @@ var pokeMemory = {
 
 function shouldPickPokemonOfTheWeek() {
     const currDay = new Date().getDay();
-    if (currDay == 0 /* sunday */ && currDay != pokeMemory.day) {
+    if (currDay == 1 /* monday */ && currDay != pokeMemory.day) {
         return true;
     } else {
         return false;
