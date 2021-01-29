@@ -148,11 +148,15 @@ loadPokemonFromCache(function() {
     // pick a pokemon
     const pokemon = pickPokemon();
 
+    // should we show the PoTW?
+    let showPotw = false;
+
     // pick pokemon of the week on sunday
     if (shouldPickPokemonOfTheWeek()) {
         const potw = pickPokemon();
         console.log(`This week, I choose you, ${potw}!`);
         pokeMemory.potw = potw;
+        showPotw = true;
     }
 
     // print it to the console
@@ -169,7 +173,9 @@ loadPokemonFromCache(function() {
     }
 
     whContent += " It's time to update the furret stream.\r\n\r\n";
-    whContent += "**Pokemon of the Week:** " + pokeMemory.potw + "\r\n";
+    if (showPotw) {
+        whContent += "**Pokemon of the Week:** " + pokeMemory.potw + "\r\n";
+    }
     whContent += "**Pokemon of the Day:** " + pokemon;
 
     // prepare the payload
