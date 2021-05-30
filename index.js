@@ -7,6 +7,7 @@ const DISCORD_USERNAME = process.env.DISCORD_USERNAME;
 const DISCORD_AVATAR_URL = process.env.DISCORD_AVATAR_URL;
 const DISCORD_PING_UID = process.env.DISCORD_PING_UID;
 const PREVIOUS_POKEMON_LIST_SIZE = process.env.PREVIOUS_POKEMON_LIST_SIZE || 5;
+const PREPEND_MESSAGE = process.env.PREPEND_MESSAGE || "A new day, a new Pokémon!"
 
 var nameList = [];
 var pokeMemory = {
@@ -172,7 +173,7 @@ loadPokemonFromCache(function() {
         whContent = `<@!${DISCORD_PING_UID}> `;
     }
 
-    whContent += " It's time to update the furret stream.\r\n\r\n";
+    whContent += PREPEND_MESSAGE + "\r\n\r\n";
     if (showPotw) {
         whContent += "**Pokemon of the Week:** " + pokeMemory.potw + "\r\n";
     }
