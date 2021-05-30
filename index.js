@@ -183,7 +183,7 @@ loadPokemonFromCache(function() {
     const payload = {
         content: whContent,
         username: DISCORD_USERNAME || undefined,
-        avatar_uri: DISCORD_AVATAR_URL || undefined
+        avatar_url: DISCORD_AVATAR_URL || undefined
     };
 
     // post the message
